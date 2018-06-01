@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified" vc:minVersion="1.1">
+	<xsd:include schemaLocation="SkillBasicTypes.xsd"/>
+	<xsd:element name="Skill">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Authors"/>
+				<xsd:element ref="Definition"/>
+				<xsd:element ref="RelevantForDomains"/>
+				<xsd:element ref="RelevantForRoles"/>
+				<xsd:element name="MainParentSkillRef" type="SkillRefType"/>
+				<xsd:element name="SubSkillRefs" type="SkillRefsType" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="Name" type="tName" use="required"/>
+			<xsd:attribute name="Id" type="xsd:ID" use="required"/>
+			<xsd:attribute name="Level" type="tLevel" use="required"/>
+			<xsd:attribute name="Category" type="tCategory" use="required"/>
+
+<!-- kh 03.04.18 only SubSkills with a level that is less than or equal to the skill level can be referenced -->
+			<xsd:assert test="every $s in SubSkillRefs/SkillRef satisfies    (@Level = 'All')
+                                                                    or (     (@Level = 'Expert')
+                                                                         and (    ($s/@Level = 'Expert')
+                                                                               or ($s/@Level = 'Intermediate') 
+                                                                               or ($s/@Level = 'Basic')
+                                                                             ) 
+                                                                       )
+                                                                    or (     (@Level = 'Intermediate')
+                                                                         and (    ($s/@Level = 'Intermediate') 
+                                                                               or ($s/@Level = 'Basic')
+                                                                             ) 
+                                                                       )
+                                                                    or (     (@Level = 'Basic')
+                                                                         and ($s/@Level = 'Basic')
+                                                                       )"/>
+
+<!-- kh 03.04.18 for every Description/Item there has to be a corresponding SkillRef  -->
+			<xsd:assert test="every $i in Definition/Description/Item satisfies    (     not (exists($i/@AssociatedSkillRefName))
+                                                                               and not (exists($i/@AssociatedSkillRefLevel))
+                                                                             )
+                                                                          or (count(SubSkillRefs//SkillRef[     (@Name  = $i/@AssociatedSkillRefName) 
+                                                                                                            and (@Level = $i/@AssociatedSkillRefLevel)]) = 1)"/>
+
+		</xsd:complexType>
+		
+		<xsd:key name="SkillAuthorKey">
+			<xsd:selector xpath="./Authors/Author"/>
+			<xsd:field xpath="."/>
+		</xsd:key>
+		
+		<xsd:key name="SubSkillRefsKey">
+			<xsd:selector xpath="./SubSkillRefs/SkillRef"/>
+			<xsd:field xpath="@Name"/>
+			<xsd:field xpath="@Level"/>
+		</xsd:key>
+		
+	</xsd:element>
+		
+	<xsd:element name="Definition">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ShortBackground" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="Item" type="BackgroundItemType"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<xsd:element name="Description" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+							<xsd:element name="Item" type="DescriptionItemType"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="BackgroundItemType">
+  	  <xsd:simpleContent>
+		<xsd:extension base="xsd:string">
+          <xsd:attribute name="IsGeneralPhrase" type="xsd:boolean" />
+		</xsd:extension>
+	  </xsd:simpleContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="DescriptionItemType">
+  	  <xsd:simpleContent>
+		<xsd:extension base="xsd:string">
+          <xsd:attribute name="Type" type="tImpartionType" use="required"/>
+          <xsd:attribute name="AssociatedSkillRefName" type="tName" />
+          <xsd:attribute name="AssociatedSkillRefLevel" type="tLevel" />
+          <xsd:attribute name="IsBackgroundTopic" type="xsd:boolean" />
+          <xsd:attribute name="IsGeneralPhrase" type="xsd:boolean" />
+		</xsd:extension>
+	  </xsd:simpleContent>
+	</xsd:complexType>
+	
+	<xsd:simpleType name="tImpartionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Knowledge"/>
+			<xsd:enumeration value="Ability"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:element name="RelevantForDomains">
+		<xsd:complexType>
+			<xsd:sequence maxOccurs="unbounded">
+				<xsd:element ref="Domain"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<xsd:key name="RelevantForDomainKey">
+			<xsd:selector xpath="./Domain"/>
+			<xsd:field xpath="@Name"/>
+		</xsd:key>
+	</xsd:element>
+	<xsd:element name="Domain">
+		<xsd:complexType>
+			<xsd:attribute name="Name" type="tDomainType" use="required"/>
+			<xsd:attribute name="EstimatedBenefit" type="tDomainEstimatedBenefit" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:simpleType name="tDomainType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="All"/>
+			<xsd:enumeration value="SocialSciences"/>
+			<xsd:enumeration value="NaturalSciences"/>
+			<xsd:enumeration value="EarthSciences"/>
+			<xsd:enumeration value="ComputerSciences"/>
+			<xsd:enumeration value="Chemistry"/>
+			<xsd:enumeration value="Physics"/>
+			<xsd:enumeration value="Medicine"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tDomainEstimatedBenefit">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Low"/>
+			<xsd:enumeration value="Normal"/>
+			<xsd:enumeration value="High"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="RelevantForRoles">
+		<xsd:complexType>
+			<xsd:sequence maxOccurs="unbounded">
+				<xsd:element ref="Role"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<xsd:key name="RelevantForRoleKey">
+			<xsd:selector xpath="./Role"/>
+			<xsd:field xpath="@Name"/>
+		</xsd:key>
+	</xsd:element>
+	<xsd:element name="Role">
+		<xsd:complexType>
+			<xsd:attribute name="Name" type="tRoleType" use="required"/>
+			<xsd:attribute name="EstimatedBenefit" type="tRoleEstimatedBenefit" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:simpleType name="tRoleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="All"/>
+			<xsd:enumeration value="Tester"/>
+			<xsd:enumeration value="Builder"/>
+			<xsd:enumeration value="Developer"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tRoleEstimatedBenefit">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Low"/>
+			<xsd:enumeration value="Normal"/>
+			<xsd:enumeration value="High"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="SkillRefsType">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="SkillRef" type="SkillRefType"/>
+		</xsd:sequence>
+		<xsd:attribute name="TestOperation" type="tTestOperation" use="required"/>
+		<xsd:attribute name="nAbsolute" type="tnAbsolute"/>
+		<xsd:attribute name="nPercentage" type="tnPercentage"/>
+		
+<!-- kh 18.01.18 neither nAbsolute nor nPercentage are allowed for operation type 'And' and 'Or' -->
+			<xsd:assert test="    not ((@TestOperation = 'And') or (@TestOperation = 'Or'))
+                         or not (    exists(@nAbsolute) 
+                                  or exists(@nPercentage))"/>
+
+<!-- kh 18.01.18 either nAbsolute or nPercentage is allowed for operation type 'nOutOfm' -->
+			<xsd:assert test="    not (@TestOperation = 'nOutOfm')
+			                   or (     (    exists(@nAbsolute) 
+			                              or exists(@nPercentage)) 
+			                        and not (exists(@nAbsolute) and exists(@nPercentage))
+                            )"/>
+
+<!-- kh 18.01.18 nAbsolute has to be in the range 2..(childcount - 1) for operation type 'nOutOfm' -->
+			<xsd:assert test="    not (@TestOperation = 'nOutOfm')
+                         or (    not (exists(@nAbsolute))
+                              or (     (@nAbsolute gt 1)
+                                   and (@nAbsolute lt count(./child::*))
+                                 )
+                            )"/>
+
+	</xsd:complexType>
+	<xsd:simpleType name="tnAbsolute">
+		<xsd:restriction base="xsd:nonNegativeInteger">
+			<xsd:minInclusive value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tnPercentage">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:fractionDigits value="2"/>
+			<xsd:minExclusive value="0"/>
+			<xsd:maxInclusive value="100"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:complexType name="SkillRefType">
+		<xsd:attribute name="Name" type="tName" use="required"/>
+		<xsd:attribute name="Level" type="tLevel" use="required"/>
+	</xsd:complexType>
+	<xsd:simpleType name="tRelevance">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Low"/>
+			<xsd:enumeration value="Medium"/>
+			<xsd:enumeration value="High"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tTestOperation">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="And"/>
+			<xsd:enumeration value="Or"/>
+			<xsd:enumeration value="nOutOfm"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

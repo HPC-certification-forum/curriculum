@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified" vc:minVersion="1.1">
+	<!-- kh 04.07.17 prepare for <xi:include href="Skills.xml"/> in SkillsModeling.xsd-->
+	<!-- kh 02.08.17 "... schemaLocation="http://www.w3.org/XML/1998/namespace" ..." is ok with Altova XMLSpy, but not with Stylus Studio -->
+	<!-- <xsd:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/XML/1998/namespace"/> -->
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+	<xsd:include schemaLocation="Skill.xsd"/>
+	<xsd:element name="Skills">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Skill" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute ref="xml:base"/>
+
+<!-- kh 18.01.18 every skill in the list of skills has to be referenced (except for the root) -->
+
+<!-- kh 23.01.18 Altova xsd validator accepts "//SubSkillRefs..." -->
+<!--
+			<xsd:assert test="every $s in Skill satisfies    (count(//SubSkillRefs//SkillRef[@Name = $s/@Name][@Level = $s/@Level]) > 0) 
+			                                              or ($s/@Name = 'Root')"/>
+-->
+<!-- kh 23.01.18 Saxonica 9.7.015 Validator XSD 1.1 does not allow "//SubSkillRef...", use explicit form to avoid error message -->
+			<xsd:assert test="every $s in Skill satisfies    (count(root(.)/descendant-or-self::SubSkillRefs//SkillRef[@Name = $s/@Name][@Level = $s/@Level]) > 0) 
+			                                              or ($s/@Name = 'Root')"/>
+
+<!-- kh 09.02.18 every child has to be referenced from its main parent skill (except for the root) -->
+			<xsd:assert test="every $s in Skill satisfies    (count(root(.)//Skill[@Name = $s/MainParentSkillRef/@Name][@Level = $s/MainParentSkillRef/@Level]/SubSkillRefs//SkillRef[@Name = $s/@Name][@Level = $s/@Level]) = 1)
+						                                        or ($s/@Name = 'Root')
+                                                    or ($s/MainParentSkillRef/@Name = 'Ignore')"/>
+
+<!-- kh 11.03.18 every role of a skill at the expert level must exist for the same skill at the intermediate level and 
+                 every role at the intermediate level must exist at the basic level and 
+                 every role at the basic level must exist at the expert level to ensure (by transitivity) that skills with the same name 
+                 are relevant for the same roles (for the sake simplicity the 3 subset comparisons are handled 
+                 via 3 separate assertions)-->
+			<xsd:assert test="every $s in Skill satisfies     (not ($s/@Level = 'Expert'))
+                                                     or (    (count(root(.)//Skill[(@Name = $s/@Name) and (@Level = 'Intermediate')]) = 0)
+                                                          or (count($s/RelevantForRoles/Role[@Name = 
+                                                               root(.)//Skill[(@Name = $s/@Name) and (@Level = 'Intermediate')]/RelevantForRoles/Role/@Name])
+                                                               = count($s/RelevantForRoles/Role)
+                                                             )
+                                                        )"/>
+
+			<xsd:assert test="every $s in Skill satisfies     (not ($s/@Level = 'Intermediate'))
+                                                     or (    (count(root(.)//Skill[(@Name = $s/@Name) and (@Level = 'Basic')]) = 0)
+                                                          or (count($s/RelevantForRoles/Role[@Name = 
+                                                               root(.)//Skill[(@Name = $s/@Name) and (@Level = 'Basic')]/RelevantForRoles/Role/@Name])
+                                                               = count($s/RelevantForRoles/Role)
+                                                             )
+                                                        )"/>
+
+
+			<xsd:assert test="every $s in Skill satisfies     (not ($s/@Level = 'Basic'))
+                                                     or (    (count(root(.)//Skill[(@Name = $s/@Name) and (@Level = 'Expert')]) = 0)
+                                                          or (count($s/RelevantForRoles/Role[@Name = 
+                                                               root(.)//Skill[(@Name = $s/@Name) and (@Level = 'Expert')]/RelevantForRoles/Role/@Name])
+                                                               = count($s/RelevantForRoles/Role)
+                                                             )
+                                                        )"/>
+
+<!-- kh 24.05.18 every skill at a certain level must reference a subskill with the same name, in case it exists, at a lower level to handle
+                 a special kind of cyclic dependencies otherwise possible (i.e. this kind of cycles are detectable early 
+                 and without fully expanding the tree)
+-->
+			<xsd:assert test="every $s in Skill satisfies    (not ($s/@Level = 'Expert'))
+                                                    or (count($s/SubSkillRefs/SkillRef[@Name = $s/@Name]) = 0)
+                                                    or (count($s/SubSkillRefs/SkillRef
+                                                         [     (@Name = $s/@Name) 
+                                                           and (    (@Level = 'Intermediate')
+                                                                 or (@Level = 'Basic')
+                                                               )
+                                                         ]) = 1)"/>
+
+			<xsd:assert test="every $s in Skill satisfies    (not ($s/@Level = 'Intermediate'))
+                                                    or (count($s/SubSkillRefs/SkillRef[@Name = $s/@Name]) = 0)
+                                                    or (count($s/SubSkillRefs/SkillRef
+                                                         [     (@Name  = $s/@Name) 
+                                                           and (@Level = 'Basic')
+                                                         ]) = 1)"/>
+
+			<xsd:assert test="every $s in Skill satisfies    (not ($s/@Level = 'Basic'))
+                                                    or (count($s/SubSkillRefs/SkillRef[@Name = $s/@Name]) = 0)"/>
+
+<!-- kh 05.04.18 check for subset relations of Skills with levels intermediate (in respect to expert) or basic (in respect to intermediate or expert) regarding 
+                 to there SkillRef lists (for the sake simplicity the 3 subset comparisons are handled via 3 separate assertions) -->
+
+<!-- kh 05.04.18 for every SkillRef with a parent at the intermediate level there has to be a corresponding SkillRef if there is a skill at the expert level defined for its parent -->
+			<xsd:assert test="every $s in Skill/SubSkillRefs/SkillRef satisfies    (not($s/../../@Level = 'Intermediate'))
+                                                                          or (     (count(root(.)//Skill[(@Name = $s/../../@Name) and (@Level = 'Expert')]) = 0)
+                                                                                or (      (count(root(.)//Skill[(@Name = $s/../../@Name) and (@Level = 'Expert')]) = 1)
+                                                                                      and (count(root(.)//Skill[(@Name = $s/../../@Name) and (@Level = 'Expert')]
+                                                                                                               [SubSkillRefs/SkillRef/@Name = $s/@Name]) = 1)
+                                                                                   )
+                                                                             )"/>
+
+<!-- kh 05.04.18 for every SkillRef with a parent at the basic level there has to be a corresponding SkillRef if there is a skill at the intermediate level defined for its parent -->
+			<xsd:assert test="every $s in Skill/SubSkillRefs/SkillRef satisfies    (not($s/../../@Level = 'Basic'))
+                                                                          or (     (count(root(.)//Skill[(@Name = $s/../../@Name) and (@Level = 'Intermediate')]) = 0)
+                                                                                or (      (count(root(.)//Skill[(@Name = $s/../../@Name) and (@Level = 'Intermediate')]) = 1)
+                                                                                      and (count(root(.)//Skill[(@Name = $s/../../@Name) and (@Level = 'Intermediate')]
+                                                                                                               [SubSkillRefs/SkillRef/@Name = $s/@Name]) = 1)
+                                                                                   )
+                                                                             )"/>
+
+<!-- kh 05.04.18 for every SkillRef with a parent at the basic level there has to be a corresponding SkillRef if there is a skill at the expert level defined for its parent -->
+			<xsd:assert test="every $s in Skill/SubSkillRefs/SkillRef satisfies    (not($s/../../@Level = 'Basic'))
+                                                                          or (     (count(root(.)//Skill[(@Name = $s/../../@Name) and (@Level = 'Expert')]) = 0)
+                                                                                or (      (count(root(.)//Skill[(@Name = $s/../../@Name) and (@Level = 'Expert')]) = 1)
+                                                                                      and (count(root(.)//Skill[(@Name = $s/../../@Name) and (@Level = 'Expert')]
+                                                                                                               [SubSkillRefs/SkillRef/@Name = $s/@Name]) = 1)
+                                                                                   )
+                                                                             )"/>
+
+<!-- kh 05.04.18 for every SkillRef for which the parent is not the main parent (at any level) there has to be a corresponding Description/Item (@AssociatedSkillRefName and @AssociatedSkillRefLevel) -->
+<!-- kh 16.04.18 check certificates here explicitly for the moment (use an attribute later) -->
+			<xsd:assert test="every $s in Skill/SubSkillRefs/SkillRef satisfies    ($s/../../@Name = 'Root')
+                                                                          or ($s/../../@Name = 'Test Certificate')
+                                                                          or ($s/../../@Name = $s/@Name)
+                                                                          or (not (count(root(.)//Skill[@Name = $s/@Name]/MainParentSkillRef[@Name = $s/../../@Name]) = 0))
+                                                                          or (count($s/../../Definition/Description/Item[     (@AssociatedSkillRefName  = $s/@Name) 
+                                                                                                                          and (@AssociatedSkillRefLevel = $s/@Level)]) = 1)"/>
+
+<!-- kh 05.04.18 for every Description/Item with a AssociatedSkillRef the parent of the corresponding SkillRef must not be the main parent
+     $i/@AssociatedSkillRefName can be used directly here, because an assertion in Skill.xsd asserts that 
+     every Description/Item has a corresponding SkillRef -->
+			<xsd:assert test="every $i in Skill/Definition/Description/Item satisfies    (     not (exists($i/@AssociatedSkillRefName))
+                                                                                     and not (exists($i/@AssociatedSkillRefLevel))
+                                                                                   )
+                                                                                or (      not($i/../../../@Name = $i/@AssociatedSkillRefName)
+                                                                                     and (count(root(.)//Skill[@Name = $i/@AssociatedSkillRefName]
+                                                                                              /MainParentSkillRef[@Name = $i/../../../@Name]) = 0)
+                                                                                   )"/>
+
+<!-- kh 24.05.18 every skill at the expert level referencing a subskill with the same name must reference this subskill at the intermediate level
+                 if it exists (and not at the basic level)
+-->
+			<xsd:assert test="every $s in Skill satisfies    (not ($s/@Level = 'Expert'))
+                                                    or (count($s/SubSkillRefs/SkillRef[@Name = $s/@Name]) = 0)
+                                                    or (count(root(.)//Skill[(@Name = $s/@Name) and (@Level = 'Intermediate')]) = 0)
+                                                    or (count($s/SubSkillRefs/SkillRef[(@Name = $s/@Name) and (@Level = 'Intermediate')]) = 1)"/>
+
+		</xsd:complexType>
+		
+		<xsd:key name="SkillKey">
+			<xsd:selector xpath="Skill"/>
+			<xsd:field xpath="@Name"/>
+			<xsd:field xpath="@Level"/>
+		</xsd:key>
+		<xsd:keyref name="RefSkillKey" refer="SkillKey">
+			<xsd:selector xpath=".//SkillRef"/>
+			<xsd:field xpath="@Name"/>
+			<xsd:field xpath="@Level"/>
+		</xsd:keyref>
+		<xsd:keyref name="ItemRefSkillKey" refer="SkillKey">
+ 			<xsd:selector xpath=".//Description/Item"/>
+			<xsd:field xpath="@AssociatedSkillRefName"/>
+			<xsd:field xpath="@AssociatedSkillRefLevel"/>
+		</xsd:keyref>
+	</xsd:element>
+</xsd:schema>

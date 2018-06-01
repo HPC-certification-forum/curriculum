@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xsd:element name="Authors">
+		<xsd:complexType>
+			<xsd:sequence maxOccurs="unbounded">
+				<xsd:element name="Author" type="xsd:string"/>
+			</xsd:sequence>
+		</xsd:complexType>
+		<xsd:key name="ContentItemAuthorKey">
+			<xsd:selector xpath="./Author"/>
+			<xsd:field xpath="."/>
+		</xsd:key>
+	</xsd:element>
+	<xsd:simpleType name="tName">
+		<xsd:restriction base="xsd:string">
+			<!--<xs:pattern value="\c*-\c*"/>-->
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tLevel">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="All"/>
+			<xsd:enumeration value="Basic"/>
+			<xsd:enumeration value="Intermediate"/>
+			<xsd:enumeration value="Expert"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="tCategory">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="All"/>
+			<xsd:enumeration value="HPC Knowledge"/>
+			<xsd:enumeration value="Use of the HPC Environment"/>
+			<xsd:enumeration value="Performance Engineering"/>
+			<xsd:enumeration value="Software Engineering for HPC"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>
