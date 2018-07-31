@@ -3003,8 +3003,8 @@
         </Item>
       </ShortBackground>
       <Description>
-        <Item Type="Ability" IsGeneralPhrase="true">
-          understand software engineering methods and practices especially
+        <Item Type="Knowledge" IsGeneralPhrase="true">
+          software engineering methods and practices especially
           in the context of high performance computing
         </Item>
         <Item Type="Ability" IsGeneralPhrase="true">
@@ -3025,7 +3025,6 @@
       <SkillRef Name="Programming Best Practices for HPC" Level="Basic"/>
       <SkillRef Name="Software Configuration Management" Level="Basic"/>
       <SkillRef Name="Agile Software Development" Level="Basic"/>
-      <SkillRef Name="Software Quality" Level="Basic"/>
       <SkillRef Name="Software Design and Software Architecture" Level="Basic"/>
       <SkillRef Name="Documentation" Level="Basic"/>
     </SubSkillRefs>
@@ -3096,8 +3095,8 @@
           develop parallel programs for shared memory systems
           as well as for message passing systems
         </Item>
-        <Item Type="Ability" IsGeneralPhrase="true">
-          understand efficient algorithms and data structures
+        <Item Type="Knowledge" IsGeneralPhrase="true">
+          efficient algorithms and data structures
         </Item>
         <Item Type="Ability" IsGeneralPhrase="true">
           assess the efficiency and suitability of algorithms
@@ -3448,8 +3447,8 @@
           to different elements of appropriate data
           structures such as arrays
         </Item>
-        <Item Type="Ability">
-          understand the concept of functional
+        <Item Type="Knowledge">
+          the concept of functional
           parallelism, i.e. executing a set of
           distinct functions possibly using the same
           data
@@ -3484,8 +3483,8 @@
           parallel program
           <!-- (see also K3.2 “Parallelization Overheads”) -->
         </Item>
-        <Item Type="Ability">
-          understand the concept of overlay networks
+        <Item Type="Knowledge">
+          the concept of overlay networks
         </Item>
       </Description>
     </Definition>
@@ -3533,9 +3532,8 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability">
-          understand the various
-          communication modes (e.g. blocking vs.
+        <Item Type="Knowledge">
+          the various communication modes (e.g. blocking vs.
           non-blocking, point-to-point vs.
           collective)
         </Item>
@@ -3809,8 +3807,8 @@
         </Item>
       </ShortBackground>
       <Description>
-        <Item Type="Ability" IsGeneralPhrase="true">
-          understand the best practices from software
+        <Item Type="Knowledge" IsGeneralPhrase="true">
+          the best practices from software
           engineering regarding programming
         </Item>
         <Item Type="Ability" IsGeneralPhrase="true">
@@ -3909,8 +3907,8 @@
           the ordering of the (stdout) output that may exist
           in parallel environments like MPI
         </Item>
-        <Item Type="Ability">
-          understand the common concepts and workflows when using
+        <Item Type="Knowledge">
+          the common concepts and workflows when using
           a debugger (commands like step into, step over, step out, breakpoints)
         </Item>
         <Item Type="Ability">
@@ -4000,8 +3998,8 @@
         </Item>
       </ShortBackground>
       <Description>
-        <Item Type="Ability">
-          understand programming idioms for a specific programming language,
+        <Item Type="Knowledge">
+          programming idioms for a specific programming language,
           e.g. FORTRAN, Python, C, C++
         </Item>
       </Description>
@@ -4059,8 +4057,8 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability">
-          understand logging demands and challenges especially for distributed systems
+        <Item Type="Knowledge">
+          logging demands and challenges especially for distributed systems
         </Item>
         <Item Type="Ability">
           choose the most appropriate log format for the context
@@ -4101,11 +4099,11 @@
         </Item>
       </ShortBackground>
       <Description>
-        <Item Type="Ability">
-          understand logging in general like log levels etc. (e.g. ERROR, WARN, INFO, DEBUG, TRACE)
+        <Item Type="Knowledge">
+          logging in general like log levels etc. (e.g. ERROR, WARN, INFO, DEBUG, TRACE)
         </Item>
-        <Item Type="Ability">
-          understand different logging formats
+        <Item Type="Knowledge">
+          different logging formats
         </Item>
         <Item Type="Ability">
            choose appropriate information that should be logged
@@ -4115,8 +4113,8 @@
         <Item Type="Ability">
            differentiate between structured logging and text logging
         </Item>
-        <Item Type="Ability">
-           understand logging implementations/libraries for a
+        <Item Type="Knowledge">
+           logging implementations/libraries for a
            specific programming language like FORTRAN, C, C++
         </Item>
       </Description>
@@ -4184,12 +4182,12 @@
         </Item>
       </ShortBackground>
       <Description>
-        <Item Type="Ability">
-           understand the differences between the terms "mistake",
+        <Item Type="Knowledge">
+           the differences between the terms "mistake",
            "fault", "failure", and "error"
         </Item>
-        <Item Type="Ability">
-           understand exception handling concepts in general
+        <Item Type="Knowledge">
+           exception handling concepts in general
            (e.g. Errors vs. Exceptions)
         </Item>
         <Item Type="Ability">
@@ -4276,12 +4274,12 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability">
-          understand the purpose and importance of software configuration management,
+        <Item Type="Knowledge">
+          the purpose and importance of software configuration management,
           especially in the context of high performance computing
         </Item>
-        <Item Type="Ability">
-          understand the basic concepts, terms and processes of SCM
+        <Item Type="Knowledge">
+          the basic concepts, terms and processes of SCM
         </Item>
       </Description>
     </Definition>
@@ -4311,13 +4309,13 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability">
-          understand the basics of SCM from the IEEE standards (e.g. IEEE-Standard 729-1983,
+        <Item Type="Knowledge">
+          the basics of SCM from the IEEE standards (e.g. IEEE-Standard 729-1983,
           IEEE 828: Software Configuration Management Plans, IEEE 1042:
           Guide to Software Configuration Management
         </Item>
-        <Item Type="Ability">
-          understand terms like Configuration Item, Baseline, SCM Directories,
+        <Item Type="Knowledge">
+          terms like Configuration Item, Baseline, SCM Directories,
           Version, Revision, Release
         </Item>
       </Description>
@@ -4372,12 +4370,12 @@
         <Item Type="Ability">
           apply SVN as a version control system
         </Item>
-        <Item Type="Ability">
-          understand advanced git concepts, such as pull requests,
+        <Item Type="Knowledge">
+          advanced git concepts, such as pull requests,
           branches, tags, submodules etc.
         </Item>
-        <Item Type="Ability">
-          understand different types of workflows, such as Feature Branch Workflow,
+        <Item Type="Knowledge">
+          different types of workflows, such as Feature Branch Workflow,
           Gitflow Workflow, Centralized Workflow, Forking Worfklow
         </Item>
       </Description>
@@ -4414,22 +4412,22 @@
         </Item>
       </ShortBackground>
       <Description>
-        <Item Type="Ability">
-          understand the basics of version control systems, e.g. what is version control
+        <Item Type="Knowledge">
+          the basics of version control systems, e.g. what is version control
         </Item>
-        <Item Type="Ability">
-          understand the benefits of using version control for software development 
+        <Item Type="Knowledge">
+          the benefits of using version control for software development 
           especially in a team; what is branching and merging
         </Item>
         <Item Type="Ability">
           assess the difference between distributed and centralized
           version control systems
         </Item>
-        <Item Type="Ability">
-          understand basic Git concepts
+        <Item Type="Knowledge">
+          basic Git concepts
         </Item>
-        <Item Type="Ability">
-          understand basic SVN concepts
+        <Item Type="Knowledge">
+          basic SVN concepts
         </Item>
         <Item Type="Ability">
           use basic git commands such as git add, git commit,
@@ -4500,8 +4498,8 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability" IsGeneralPhrase="true">
-          understand concepts of issue/bug tracking systems and their
+        <Item Type="Knowledge" IsGeneralPhrase="true">
+          concepts of issue/bug tracking systems and their
           basic concepts like task, sub-task, new feature, story,
           release planning, sprint planning in order to structure
           and organize the development process
@@ -4509,8 +4507,8 @@
           writing user stories, managing the stages of an issue
           (to do, in progress, in review, done) etc.)
         </Item>
-        <Item Type="Ability" IsGeneralPhrase="true">
-          understand different issue tracking systems,
+        <Item Type="Knowledge" IsGeneralPhrase="true">
+          different issue tracking systems,
           like Jira or Redmine
         </Item>
       </Description>
@@ -4608,21 +4606,21 @@
         </Item>
       </ShortBackground>
       <Description>
-        <Item Type="Ability">
-           understand the basics of release management and what the benefits are of
+        <Item Type="Knowledge">
+           the basics of release management and what the benefits are of
            applying a release management process in the context of high performance computing
            "fault", "failure", and "error"
         </Item>
-        <Item Type="Ability">
-           understand the differences between Major Release, Minor Release,
+        <Item Type="Knowledge">
+           the differences between Major Release, Minor Release,
            Emergency Fix (and potentially other types of releases)
            and what should be contained in each of them
         </Item>
-        <Item Type="Ability">
-          understand the tasks and steps of release management
+        <Item Type="Knowledge">
+          the tasks and steps of release management
         </Item>
-        <Item Type="Ability">
-          understand the steps of the deployment process of the release
+        <Item Type="Knowledge">
+          the steps of the deployment process of the release
           version and the required dependencies
         </Item>
         <Item Type="Knowledge">
@@ -4630,8 +4628,8 @@
           using appropriate version numbering scheme (e.g.
           using the version control system)
         </Item>
-        <Item Type="Ability">
-          understand the lifecycle of a release (including states such as stable, unstable)
+        <Item Type="Knowledge">
+          the lifecycle of a release (including states such as stable, unstable)
         </Item>
         <Item Type="Knowledge">
            different frameworks of release planning and management, e.g. SCRUM release planning or ITIL
@@ -4700,8 +4698,8 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability">
-          understand the basics of dependency management for
+        <Item Type="Knowledge">
+          the basics of dependency management for
           different programming languages
         </Item>
         <Item Type="Ability">
@@ -4748,26 +4746,26 @@
         </Item>
       </ShortBackground>
       <Description>
-        <Item Type="Ability">
-          understand the basics of dependency management
+        <Item Type="Knowledge">
+          the basics of dependency management
         </Item>
         <Item Type="Ability">
           understand that different environments for testing,
           development, production, and staging are necessary
         </Item>
-        <Item Type="Ability">
-          understand the differences between different deployment environments,
+        <Item Type="Knowledge">
+          the differences between different deployment environments,
           and what specific requirements are for each
         </Item>
         <Item Type="Ability">
           use software building environments like
           make, Autotools, CMake
         </Item>
-        <Item Type="Ability">
-          understand continuous integration, delivery, and deployment and the differences between them
+        <Item Type="Knowledge">
+          continuous integration, delivery, and deployment and the differences between them
         </Item>
-        <Item Type="Ability">
-          understand the benefits, drawbacks, and tradeoffs of continuous integration, delivery, and deployment
+        <Item Type="Knowledge">
+          the benefits, drawbacks, and tradeoffs of continuous integration, delivery, and deployment
         </Item>
       </Description>
     </Definition>
@@ -4888,8 +4886,8 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability">
-          understand the challenges of testing scientific applications
+        <Item Type="Knowledge">
+          the challenges of testing scientific applications
         </Item>
         <Item Type="Ability">
           understand test-driven and test-first concepts
@@ -4952,8 +4950,8 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability">
-          understand the principles of extreme programming
+        <Item Type="Knowledge">
+          the principles of extreme programming
           and when to apply it
         </Item>
       </Description>
@@ -5064,31 +5062,6 @@
       <Author>Hinnerk Stüben</Author>
     </Authors>
     <Definition>
-    </Definition>
-    <RelevantForDomains>
-      <Domain Name="All" EstimatedBenefit="High"/>
-    </RelevantForDomains>
-    <RelevantForRoles>
-      <Role Name="Developer" EstimatedBenefit="High"/>
-    </RelevantForRoles>
-    <MainParentSkillRef Name="Software Engineering for HPC" Level="Intermediate"/>
-    <SubSkillRefs TestOperation="And">
-      <SkillRef Name="Software Quality" Level="Basic"/>
-      <SkillRef Name="Coding Standards" Level="Intermediate"/>
-      <SkillRef Name="Code Quality" Level="Intermediate"/>
-      <SkillRef Name="Refactoring" Level="Intermediate"/>
-      <SkillRef Name="Code Reviews" Level="Intermediate"/>
-    </SubSkillRefs>
-  </Skill>
-  <Skill Name="Software Quality" Id="SE5-B" Level="Basic" Category="Software Engineering for HPC">
-    <Authors>
-      <Author>Kai Himstedt</Author>
-      <Author>Nathanael Hübbe</Author>
-      <Author>Julian Kunkel</Author>
-      <Author>Sandra Schröder</Author>
-      <Author>Hinnerk Stüben</Author>
-    </Authors>
-    <Definition>
       <ShortBackground>
         <Item IsGeneralPhrase="true">
           The benefits of software quality (functional and non-functional) are presented.
@@ -5109,12 +5082,12 @@
     <RelevantForRoles>
       <Role Name="Developer" EstimatedBenefit="High"/>
     </RelevantForRoles>
-    <MainParentSkillRef Name="Software Engineering for HPC" Level="Basic"/>
+    <MainParentSkillRef Name="Software Engineering for HPC" Level="Intermediate"/>
     <SubSkillRefs TestOperation="And">
-      <SkillRef Name="Coding Standards" Level="Basic"/>
-      <SkillRef Name="Code Quality" Level="Basic"/>
-      <SkillRef Name="Refactoring" Level="Basic"/>
-      <SkillRef Name="Code Reviews" Level="Basic"/>
+      <SkillRef Name="Coding Standards" Level="Intermediate"/>
+      <SkillRef Name="Code Quality" Level="Intermediate"/>
+      <SkillRef Name="Refactoring" Level="Intermediate"/>
+      <SkillRef Name="Code Reviews" Level="Intermediate"/>
     </SubSkillRefs>
   </Skill>
 <!-- ==================================================================================================== -->
@@ -5166,38 +5139,11 @@
       <Role Name="Developer" EstimatedBenefit="High"/>
     </RelevantForRoles>
     <MainParentSkillRef Name="Software Quality" Level="Intermediate"/>
+<!--
     <SubSkillRefs TestOperation="And">
       <SkillRef Name="Coding Standards" Level="Basic"/>
     </SubSkillRefs>
-  </Skill>
-  <Skill Name="Coding Standards" Id="SE5.1-B" Level="Basic" Category="Software Engineering for HPC">
-    <Authors>
-      <Author>Kai Himstedt</Author>
-      <Author>Nathanael Hübbe</Author>
-      <Author>Julian Kunkel</Author>
-      <Author>Sandra Schröder</Author>
-      <Author>Hinnerk Stüben</Author>
-    </Authors>
-    <Definition>
-      <Description>
-        <Item Type="Ability">
-          understand common coding conventions,
-          e.g. in order to ensure portability of the code
-          (that are specific to a programming language,
-          e.g. MISRA C)
-        </Item>
-      </Description>
-    </Definition>
-    <RelevantForDomains>
-      <Domain Name="All" EstimatedBenefit="High"/>
-    </RelevantForDomains>
-    <RelevantForRoles>
-      <Role Name="Developer" EstimatedBenefit="High"/>
-    </RelevantForRoles>
-    <MainParentSkillRef Name="Software Quality" Level="Basic"/>
-    <!-- 03.05.18 todo -->
-    <!--    <SubSkillRefs TestOperation="And">
-    </SubSkillRefs> -->
+-->
   </Skill>
 <!-- ==================================================================================================== -->
   <Skill Name="Code Quality" Id="SE5.2-E" Level="Expert" Category="Software Engineering for HPC">
@@ -5217,8 +5163,8 @@
         </Item>
       </ShortBackground>
       <Description>
-        <Item Type="Ability">
-          understand software engineering methods and practices especially
+        <Item Type="Knowledge">
+          software engineering methods and practices especially
           in the context of high performance computing
         </Item>
         <Item Type="Ability">
@@ -5270,35 +5216,11 @@
       <Role Name="Developer" EstimatedBenefit="High"/>
     </RelevantForRoles>
     <MainParentSkillRef Name="Software Quality" Level="Intermediate"/>
+<!--
     <SubSkillRefs TestOperation="And">
       <SkillRef Name="Code Quality" Level="Basic"/>
     </SubSkillRefs>
-  </Skill>
-  <Skill Name="Code Quality" Id="SE5.2-B" Level="Basic" Category="Software Engineering for HPC">
-    <Authors>
-      <Author>Kai Himstedt</Author>
-      <Author>Nathanael Hübbe</Author>
-      <Author>Julian Kunkel</Author>
-      <Author>Sandra Schröder</Author>
-      <Author>Hinnerk Stüben</Author>
-    </Authors>
-    <Definition>
-      <Description>
-        <Item Type="Ability">
-          understand different code metrics that assess code quality
-        </Item>
-      </Description>
-    </Definition>
-    <RelevantForDomains>
-      <Domain Name="All" EstimatedBenefit="High"/>
-    </RelevantForDomains>
-    <RelevantForRoles>
-      <Role Name="Developer" EstimatedBenefit="High"/>
-    </RelevantForRoles>
-    <MainParentSkillRef Name="Software Quality" Level="Basic"/>
-    <!-- 03.05.18 todo -->
-    <!--    <SubSkillRefs TestOperation="And">
-    </SubSkillRefs> -->
+-->
   </Skill>
 <!-- ==================================================================================================== -->
   <Skill Name="Refactoring" Id="SE5.3-I" Level="Intermediate" Category="Software Engineering for HPC">
@@ -5329,37 +5251,13 @@
       <Role Name="Developer" EstimatedBenefit="High"/>
     </RelevantForRoles>
     <MainParentSkillRef Name="Software Quality" Level="Intermediate"/>
+<!--
     <SubSkillRefs TestOperation="And">
       <SkillRef Name="Refactoring" Level="Basic"/>
     </SubSkillRefs>
+-->
   </Skill>
-  <Skill Name="Refactoring" Id="SE5.3-B" Level="Basic" Category="Software Engineering for HPC">
-    <Authors>
-      <Author>Kai Himstedt</Author>
-      <Author>Nathanael Hübbe</Author>
-      <Author>Julian Kunkel</Author>
-      <Author>Sandra Schröder</Author>
-      <Author>Hinnerk Stüben</Author>
-    </Authors>
-    <Definition>
-      <Description>
-        <Item Type="Ability">
-          understand different types of refactorings that
-          help to improve the quality of the code and the design
-        </Item>
-      </Description>
-    </Definition>
-    <RelevantForDomains>
-      <Domain Name="All" EstimatedBenefit="High"/>
-    </RelevantForDomains>
-    <RelevantForRoles>
-      <Role Name="Developer" EstimatedBenefit="High"/>
-    </RelevantForRoles>
-    <MainParentSkillRef Name="Software Quality" Level="Basic"/>
-    <!-- 03.05.18 todo -->
-    <!--    <SubSkillRefs TestOperation="And">
-    </SubSkillRefs> -->
-  </Skill>
+
 <!-- ==================================================================================================== -->
   <Skill Name="Code Reviews" Id="SE5.4-E" Level="Expert" Category="Software Engineering for HPC">
     <Authors>
@@ -5425,39 +5323,13 @@
     </RelevantForRoles>
     <MainParentSkillRef Name="Software Quality" Level="Intermediate"/>
     <SubSkillRefs TestOperation="And">
+<!--
       <SkillRef Name="Code Reviews" Level="Basic"/>
+-->
       <SkillRef Name="Issue Tracking and Bug Tracking" Level="Intermediate"/>
     </SubSkillRefs>
   </Skill>
-  <Skill Name="Code Reviews" Id="SE5.4-B" Level="Basic" Category="Software Engineering for HPC">
-    <Authors>
-      <Author>Kai Himstedt</Author>
-      <Author>Nathanael Hübbe</Author>
-      <Author>Julian Kunkel</Author>
-      <Author>Sandra Schröder</Author>
-      <Author>Hinnerk Stüben</Author>
-    </Authors>
-    <Definition>
-      <Description>
-        <Item Type="Ability">
-          understand modern code reviews
-        </Item>
-        <Item Type="Ability">
-          understand the single steps of a code review
-        </Item>
-      </Description>
-    </Definition>
-    <RelevantForDomains>
-      <Domain Name="All" EstimatedBenefit="High"/>
-    </RelevantForDomains>
-    <RelevantForRoles>
-      <Role Name="Developer" EstimatedBenefit="High"/>
-    </RelevantForRoles>
-    <MainParentSkillRef Name="Software Quality" Level="Basic"/>
-    <!-- 03.05.18 todo -->
-    <!--    <SubSkillRefs TestOperation="And">
-    </SubSkillRefs> -->
-  </Skill>
+  
 <!-- ==================================================================================================== -->
   <Skill Name="Software Design and Software Architecture" Id="SE6-E" Level="Expert" Category="Software Engineering for HPC">
     <Authors>
@@ -5604,8 +5476,8 @@
         </Item>
       </ShortBackground>
       <Description>
-        <Item Type="Ability">
-          understand the role of requirements elicitation and analysis during software development
+        <Item Type="Knowledge">
+          the role of requirements elicitation and analysis during software development
         </Item>
       </Description>
     </Definition>
@@ -5657,8 +5529,8 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability">
-          understand design patterns for HPC
+        <Item Type="Knowledge">
+          design patterns for HPC
         </Item>
         <Item Type="Ability">
            write modular, reusable code by applying software
@@ -5732,13 +5604,15 @@
           develop an HPC application according to a reference architecture
           and adhering to the standards/guidelines given by the reference architecture
         </Item>
-        <Item Type="Ability">
-          understand component-based software architecture for scientific applications
+        <Item Type="Knowledge">
+          component-based software architecture for scientific applications
           and ability to apply component-based architecture design
         </Item>
+        <Item Type="Knowledge">
+          architecture bad smells
+        </Item>
         <Item Type="Ability">
-          understand architecture bad smells and ability to identify sub-optimal
-          design decisions in architecture designs
+          identify sub-optimal design decisions in architecture designs
           (e.g. sub-optimal communication between components)
         </Item>
       </Description>
@@ -5782,17 +5656,17 @@
           for coding of parallel algorithms and their mapping
           to various architectures
         </Item>
-        <Item Type="Ability">
-          understand reference architectures for scientific applications
+        <Item Type="Knowledge">
+          reference architectures for scientific applications
         </Item>
-        <Item Type="Ability">
-          understand architectural tactics for performance, scalability etc.
+        <Item Type="Knowledge">
+          architectural tactics for performance, scalability etc.
         </Item>
         <Item Type="Ability">
           apply software architecture principles during architecture design
         </Item>
-        <Item Type="Ability">
-           understand the characteristics and the architectural challenges
+        <Item Type="Knowledge">
+           the characteristics and the architectural challenges
            of data-intensive and compute-intensive software systems
            and how they can be appropriately addressed
         </Item>
@@ -5819,12 +5693,12 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability">
-           understand the importance and impact of software
+        <Item Type="Knowledge">
+           the importance and impact of software
            architecture during software development
         </Item>
-        <Item Type="Ability">
-          understand software architecture principles
+        <Item Type="Knowledge">
+          software architecture principles
         </Item>
       </Description>
     </Definition>
@@ -5974,8 +5848,8 @@
         <Item Type="Ability">
           understand which information needs to be captured in a requirements document
         </Item>
-        <Item Type="Ability">
-           understand the IEEE standard for software requirements
+        <Item Type="Knowledge">
+           the IEEE standard for software requirements
            specification for a structured requirement specification
         </Item>
       </Description>
@@ -6075,8 +5949,8 @@
     </Authors>
     <Definition>
       <Description>
-        <Item Type="Ability">
-          understand software engineering methods and practices especially
+        <Item Type="Knowledge">
+          software engineering methods and practices especially
           in the context of high performance computing
         </Item>
         <Item Type="Ability">

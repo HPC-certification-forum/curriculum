@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> HPC Skill Tree </title>
+    <script src="skillTree.min.js"></script>
+    <script src="js_libs/jquery.min.js"></script>
+    <script src="js_libs/raphael.min.js"></script>
+    <script src="js_libs/Treant.js"></script>
+    <link type="text/css" rel="stylesheet" href="js_libs/Treant.css"></link>
+    <link type="text/css" rel="stylesheet" href="js_libs/bootstrap.min.css"></link>
+    <link type="text/css" rel="stylesheet" href="skillTree.css"></link>
+</head>
+<body>
+  <div class="links" id="pfad"></div>
+  <script>
+      var url = window.location.href
+      var dirname = url.substring(0, url.lastIndexOf('/') + 1) + "skillTreeConversion/mergedSkills/";
+      SkillTreeViewer("#pfad", {
+          "all": [
+              dirname + "domainDefinitions.json",
+              dirname + "roleDefinitions.json",
+              dirname + "skillData.json",
+              dirname + "skillAuthors.json",
+              dirname + "skillBackgrounds.json",
+              dirname + "skillDescriptions.json",
+              dirname + "skillTreeStructure.json"
+          ],
+          "reduced": [
+              dirname + "skillData.json",
+              dirname + "skillDescriptions.json",
+              dirname + "skillTreeStructure.json"
+          ],
+      });
+  </script>
+</body>
+</html>
