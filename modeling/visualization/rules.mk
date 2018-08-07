@@ -18,7 +18,8 @@ V_dataRenameInstructions := build/data/mergedSkills/domainDefinitions.json|domai
                             build/data/mergedSkills/skillDescriptions.json|skill-descriptions.json \
                             build/data/mergedSkills/skillTreeStructure.json|skill-tree-structure.json
 
-V_jsSources := $(addprefix $(curDir)/,utilities.js \
+V_jsSources := $(addprefix $(curDir)/,license.js \
+                                      utilities.js \
                                       hoverBox.js \
                                       menu.js \
                                       collapsable.js \
@@ -41,7 +42,7 @@ $(foreach V_instruction, $(addprefix $(curDir)/,$(V_scriptRenameInstructions)) $
 	$(eval V_dest := $(V_finalProductsDir)/$(word 2,$(V_instructionWords))) \
 	\
 	$(eval allTargets += $(V_dest)) \
-	$(eval $(V_dest): $(V_source) Makefile | $(V_finalProductsDir); \
+	$(eval $(V_dest): $(V_source) $(curDir)/rules.mk | $(V_finalProductsDir); \
 		cp $(V_source) $(V_dest)))
 
 #Compute `sed` substitute commands that replace the paths with Fiona-adapted file names.
@@ -63,9 +64,9 @@ $(V_baseUrlConfigFile):
 
 #Special rule for index.html, because this needs sed to adjust the paths inside.
 allTargets += $(V_finalProductsDir)/index.html
-$(V_finalProductsDir)/index.html: $(V_indexHtml) Makefile $(V_baseUrlConfigFile) | $(V_finalProductsDir)
+$(V_finalProductsDir)/index.html: $(V_indexHtml) $(curDir)/rules.mk $(V_baseUrlConfigFile) | $(V_finalProductsDir)
 	sed '/url *=/d; s>dirname *=.*$$>dirname = "$(shell head -n1 '$(V_baseUrlConfigFile)')">; $(V_renameSubstitutions)' $(V_indexHtml) > $(V_finalProductsDir)/index.html
 
-allTargets += $(V_compiledJsFile)
-$(V_compiledJsFile) $(V_mapFile): $(V_jsSources) Makefile
-	closure-compiler --language_in ECMASCRIPT5 $(addprefix --js , $(V_jsSources)) --js_output_file $@ --compilation_level SIMPLE_OPTIMIZATIONS --create_source_map $(V_mapFile)
+allTargets += $(V_compiledJsFile) $(V_mapFile)
+$(V_compiledJsFile) $(V_mapFile): $(V_jsSources) $(curDir)/rules.mk
+	closure-compiler --language_in ECMASCRIPT5 --charset UTF-8 $(addprefix --js , $(V_jsSources)) --js_output_file $@ --compilation_level SIMPLE_OPTIMIZATIONS --create_source_map $(V_mapFile)
