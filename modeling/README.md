@@ -13,7 +13,7 @@ This is the core of this publication, and we hope to get feedback, bug reports, 
 The conversion tools are provided to ease understanding of the Skill Tree.
 Also, one of these conversion tools is essential to produce the input data for the visualizer.
 
-The visualizer is a Javascript program that is aimed at being embedded in any websites
+The visualizer is a JavaScript program that is aimed at being embedded in any websites
 that wish to provide a graphical, interactive view of the Skill Tree.
 As such, the visualizer is heavily customizable; how is described below.
 While the visualizer is aimed at being deployed on the web, it can also be used locally to browse the Skill Tree.
