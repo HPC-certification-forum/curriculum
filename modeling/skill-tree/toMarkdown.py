@@ -8,9 +8,10 @@ def cleanXML(str):
   b = [x.strip() for x in a]
   return " ".join(b)
 
-def updatePage(dir, name):
+def updatePage(dir, name, id):
   with open(dir + "/start.txt", "w") as o:
-    o.write("# " + name + "\n")
+    o.write("# " + id + "\n")
+    o.write("# Name: " + name + "\n")
 
 def updateGraph(dir, name):
   o.write('''
@@ -29,9 +30,13 @@ def createMarkdown(id, name, defi):
   group = m.group(1)
   order = m.group(2)
   level = m.group(3)
-  if order == "":
+  if order != "":
+    order = order.split(".")
+  else:
+    order = []
+  if group == "ST" or group == "TC":
     return
-  order = order.split(".")
+
   directory = "skills/" + group + "/" + "/".join(order)
   directory = directory.lower()
   if not os.path.exists(directory):
@@ -45,7 +50,7 @@ def createMarkdown(id, name, defi):
 
   file = directory + "/" + level + ".txt"
   file = file.lower()
-  #updatePage(directory, name)
+  updatePage(directory, name, group + "-".join(order))
   with open(file, "w") as o:
     o.write("# %s\n" % id)
     o.write("# Name: %s\n" % name)

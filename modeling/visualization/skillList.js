@@ -127,7 +127,7 @@ SkillList.prototype = {
 			}
 			return "";
 		}
-		if(!data.define) return "missing 'define' attribute";
+		if(!data.define) data.define = "list items";
 		switch(data.define) {
 			case "list items":
 				return this.ingestListItems(data);
@@ -155,8 +155,15 @@ SkillList.prototype = {
 	//
 	//Returns an error message string or a falsy value.
 	ingestListItems: function(data) {
-		if(!data.skill) return "'list items' skill descriptor is missing 'skill' attribute";
 		if(!data.attribute) return "'list items' skill descriptor is missing 'attribute' attribute";
+		if (data.data) {
+			for (var id in data.data){
+				var val = data.data[id];
+				skill = this.produceSkill(id).addToListAttribute(data.attribute, val);
+			}
+			return "";
+		}
+		if(!data.skill) return "'list items' skill descriptor is missing 'skill' attribute";
 		if(!data.value) return "'list items' skill descriptor is missing 'value' attribute";
 
 		skill = this.produceSkill(data.skill).addToListAttribute(data.attribute, data.value);
