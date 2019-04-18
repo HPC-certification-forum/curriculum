@@ -118,3 +118,5 @@ def generateFiles(skillList, dirPath) -> None:
 	writeListAttribute(skillList, 'description', dirPath + 'skillDescriptions.json', indent = 4)
 	writeListAttribute(skillList, 'background', dirPath + 'skillBackgrounds.min.json')
 	writeListAttribute(skillList, 'background', dirPath + 'skillBackgrounds.json', indent = 4)
+	writeListAttribute(skillList, 'content', dirPath + 'skillContents.min.json')
+	writeListAttribute(skillList, 'content', dirPath + 'skillContents.json', indent = 4)

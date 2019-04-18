@@ -15,6 +15,7 @@
 			<xsd:attribute name="Id" type="xsd:ID" use="required"/>
 			<xsd:attribute name="Level" type="tLevel" use="required"/>
 			<xsd:attribute name="Category" type="tCategory" use="required"/>
+			<xsd:attribute name="IsCertificate" type="xsd:boolean" default="false"/>
 
 <!-- kh 03.04.18 only SubSkills with a level that is less than or equal to the skill level can be referenced -->
 			<xsd:assert test="every $s in SubSkillRefs/SkillRef satisfies    (@Level = 'All')

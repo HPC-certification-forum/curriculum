@@ -112,9 +112,9 @@
                                                                              )"/>
 
 <!-- kh 05.04.18 for every SkillRef for which the parent is not the main parent (at any level) there has to be a corresponding Description/Item (@AssociatedSkillRefName and @AssociatedSkillRefLevel) -->
-<!-- kh 16.04.18 check certificates here explicitly for the moment (use an attribute later) -->
+<!-- kh 24.07.18 check certificate status here -->
 			<xsd:assert test="every $s in Skill/SubSkillRefs/SkillRef satisfies    ($s/../../@Name = 'Root')
-                                                                          or ($s/../../@Name = 'Test Certificate')
+                                                                          or ($s/../../@IsCertificate = true())
                                                                           or ($s/../../@Name = $s/@Name)
                                                                           or (not (count(root(.)//Skill[@Name = $s/@Name]/MainParentSkillRef[@Name = $s/../../@Name]) = 0))
                                                                           or (count($s/../../Definition/Description/Item[     (@AssociatedSkillRefName  = $s/@Name) 

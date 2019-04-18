@@ -1,7 +1,9 @@
 STC_dataSource := skill-tree/skills-non-personal-speech-auto-generated.xml
+STC_contentElements := skill-tree/ContentElements.xml
 STC_outputBaseDir := build/data
 STC_baseNames := skillBackgrounds \
              skillDescriptions \
+             skillContents \
              skillAuthors \
              domainDefinitions \
              roleDefinitions \
@@ -46,7 +48,7 @@ $(STC_dirNames):
 
 .INTERMEDIATE: temp_L9JkwgVXGr0mypfE
 $(STC_generatedFiles): temp_L9JkwgVXGr0mypfE
-temp_L9JkwgVXGr0mypfE: $(curDir)/rules.mk $(STC_SKILL_TREE_CONVERTER) $(wildcard $(curDir)/*.py) $(STC_dataSource) | $(STC_dirNames)
+temp_L9JkwgVXGr0mypfE: $(curDir)/rules.mk $(STC_SKILL_TREE_CONVERTER) $(wildcard $(curDir)/*.py) $(STC_dataSource) $(wildcard $(STC_contentElements)) | $(STC_dirNames)
 	@echo generating files...
-	@$(STC_SKILL_TREE_CONVERTER) -o $(STC_outputBaseDir) -s $(STC_dataSource)
+	@$(STC_SKILL_TREE_CONVERTER) -o $(STC_outputBaseDir) -s $(STC_dataSource) $(and $(wildcard $(STC_contentElements)),-c $(STC_contentElements))
 	@touch temp_L9JkwgVXGr0mypfE

@@ -16,6 +16,7 @@
 import xml.etree.ElementTree
 
 import skill
+import termColors
 
 class SkillTreeFormatError(SyntaxError):
 	pass
@@ -213,3 +214,38 @@ class SkillList:
 		for xmlNode in xmlRoot.getchildren():
 			skills.registerSkill(skill.Skill(xmlNode))
 		return skills
+
+	def addContents(self, contentElementsPath: str, urlPrefix: str = "") -> None:
+		"""Reads the given ContentElements.xml file, and defines a "content" attribute for the respective skills.
+
+		Parses the list of <ContentElement> tags and produces a single link to "urlPrefix/skill-name-level-sl-standalone.html" for each <Slides> tag
+		and to "urlPrefix/skill-name-level-ch-standalone.html" for each <Chapters> tag."""
+
+		def simplifyString(string: str) -> str:
+			"""Return a copy of the string with only lowercase alphanumeric characters and dashes."""
+			result = string.lower()
+
+			for i in range(len(result)):
+				if not result[i].isalnum():
+					result = result[:i] + "-" + result[i+1:]
+			return result
+
+		xmlRoot = xml.etree.ElementTree.parse(contentElementsPath).getroot()
+		for xmlNode in xmlRoot.getchildren():
+			if xmlNode.tag == "ContentElement":
+				skill = self.findSkill(xmlNode.attrib["Name"], xmlNode.attrib["Level"])
+				if not skill:
+					print(termColors.kBold + "warning: ignoring <ContentElement> tag for unknown skill: " +
+						termColors.kBM + "'" + xmlNode.attrib["Name"] + "' (" + xmlNode.attrib["Level"] + ")" + termColors.kNormal)
+					continue
+				level = xmlNode.attrib["Level"]
+				prefix = urlPrefix + simplifyString(xmlNode.attrib["Name"] + " " + level)
+
+				haveSlides = False
+				haveChapters = False
+				for subtag in xmlNode.getchildren():
+					if subtag.tag == "Slides": haveSlides = True
+					if subtag.tag == "Chapters": haveChapters = True
+
+				if haveSlides: skill.addContentLink("Slides (" + level + ")", prefix + "-sl-standalone.html")
+				if haveChapters: skill.addContentLink("Chapters (" + level + ")", prefix + "-ch-standalone.html")

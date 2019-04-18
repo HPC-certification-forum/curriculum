@@ -17,7 +17,8 @@
       <SkillRef Name="Skill Tree" Level="Expert"/>
       <SkillRef Name="Skill Tree" Level="Intermediate"/>
       <SkillRef Name="Skill Tree" Level="Basic"/>
-      <SkillRef Name="Test Certificate" Level="Basic"/>
+      <SkillRef Name="Getting Started with HPC Clusters" Level="Basic"/>
+      <SkillRef Name="First Steps on a Cluster" Level="Basic"/>
     </SubSkillRefs>
   </Skill>
 <!-- ==================================================================================================== -->
@@ -84,9 +85,13 @@
     </SubSkillRefs>
   </Skill>
 <!-- ==================================================================================================== -->
-  <Skill Name="Test Certificate" Id="TC-B" Level="Basic" Category="All">
+  <Skill Name="Getting Started with HPC Clusters" Id="GSWHC-B" Level="Basic" Category="All" IsCertificate="true">
     <Authors>
       <Author>Kai Himstedt</Author>
+      <Author>Nathanael Hübbe</Author>
+      <Author>Julian Kunkel</Author>
+      <Author>Sandra Schröder</Author>
+      <Author>Hinnerk Stüben</Author>
     </Authors>
     <Definition>
     </Definition>
@@ -94,11 +99,51 @@
       <Domain Name="All" EstimatedBenefit="High"/>
     </RelevantForDomains>
     <RelevantForRoles>
-      <Role Name="All" EstimatedBenefit="High"/>
+      <Role Name="Tester" EstimatedBenefit="High"/>
+      <Role Name="Builder" EstimatedBenefit="High"/>
+      <Role Name="Developer" EstimatedBenefit="High"/>
     </RelevantForRoles>
     <MainParentSkillRef Name="Root" Level="Expert"/>
     <SubSkillRefs TestOperation="And">
-      <SkillRef Name="Building of Parallel Programs" Level="Basic"/>
+      <SkillRef Name="System Architectures" Level="Basic"/>
+      <SkillRef Name="Hardware Architectures" Level="Basic"/>
+      <SkillRef Name="I/O Architectures" Level="Basic"/>
+      <SkillRef Name="Performance Modeling" Level="Basic"/>
+      <SkillRef Name="Parallelization Overheads" Level="Basic"/>
+      <SkillRef Name="Domain Decomposition" Level="Basic"/>
+      <SkillRef Name="Job Scheduling" Level="Basic"/>
+      <SkillRef Name="Use of the Cluster Operating System" Level="Basic"/>
+      <SkillRef Name="Use of a Workload Manager" Level="Basic"/>
+      <SkillRef Name="Benchmarking" Level="Basic"/>
+    </SubSkillRefs>
+  </Skill>
+<!-- ==================================================================================================== -->
+  <Skill Name="First Steps on a Cluster" Id="FSOAC-B" Level="Basic" Category="All" IsCertificate="true">
+    <Authors>
+      <Author>HHCC Team</Author>
+    </Authors>
+    <Definition>
+      <Description>
+        <Item Type="Ability" IsGeneralPhrase="true">
+          work on a remote system
+        </Item>
+        <Item Type="Ability" IsGeneralPhrase="true">
+          use a workload manager to start jobs
+        </Item>
+      </Description>
+    </Definition>
+    <RelevantForDomains>
+      <Domain Name="All" EstimatedBenefit="High"/>
+    </RelevantForDomains>
+    <RelevantForRoles>
+      <Role Name="Tester" EstimatedBenefit="High"/>
+      <Role Name="Builder" EstimatedBenefit="High"/>
+      <Role Name="Developer" EstimatedBenefit="High"/>
+    </RelevantForRoles>
+    <MainParentSkillRef Name="Root" Level="Expert"/>
+    <SubSkillRefs TestOperation="And">
+      <SkillRef Name="Use of the Cluster Operating System" Level="Basic"/>
+      <SkillRef Name="Use of a Workload Manager" Level="Basic"/>
     </SubSkillRefs>
   </Skill>
 <!-- ==================================================================================================== -->
@@ -1520,6 +1565,9 @@
           limit the amount of disk space available
           for the user
         </Item>
+        <Item Type="Ability">
+          use text editors
+        </Item>
       </Description>
     </Definition>
     <RelevantForDomains>
@@ -1722,6 +1770,7 @@
       <SkillRef Name="Benchmarking" Level="Intermediate"/>
       <SkillRef Name="Tuning without Building a Parallel Program" Level="Expert"/>
       <SkillRef Name="Optimization Cycle" Level="Basic"/>
+      <SkillRef Name="Use of a Workload Manager" Level="Intermediate"/>
     </SubSkillRefs>
   </Skill>
   <Skill Name="Running of Parallel Programs" Id="USE2-I" Level="Intermediate" Category="Use of the HPC Environment">
@@ -1790,6 +1839,7 @@
       <SkillRef Name="Benchmarking" Level="Intermediate"/>
       <SkillRef Name="Tuning without Building a Parallel Program" Level="Intermediate"/>
       <SkillRef Name="Optimization Cycle" Level="Basic"/>
+      <SkillRef Name="Use of a Workload Manager" Level="Intermediate"/>
     </SubSkillRefs>
   </Skill>
   <Skill Name="Running of Parallel Programs" Id="USE2-B" Level="Basic" Category="Use of the HPC Environment">
@@ -1860,6 +1910,77 @@
       <SkillRef Name="Benchmarking" Level="Basic"/>
       <SkillRef Name="Tuning without Building a Parallel Program" Level="Basic"/>
       <SkillRef Name="Optimization Cycle" Level="Basic"/>
+      <SkillRef Name="Use of a Workload Manager" Level="Basic"/>
+    </SubSkillRefs>
+  </Skill>
+<!-- ==================================================================================================== -->
+  <Skill Name="Use of a Workload Manager" Id="USE2.1-I" Level="Intermediate" Category="Use of the HPC Environment">
+    <Authors>
+      <Author>HHCC Team</Author>
+    </Authors>
+    <Definition>
+      <Description>
+        <Item Type="Ability">
+          use a workload manager to allocate HPC resources for running a parallel
+          program interactively
+        </Item>
+        <Item Type="Ability" AssociatedSkillRefName="Using Shell Scripts" AssociatedSkillRefLevel="Basic">
+         use shell scripts
+          <!-- (see also USE2.1 “Using Shell Scripts”) -->
+        </Item>
+        <Item Type="Ability" AssociatedSkillRefName="Use of the Command Line Interface" AssociatedSkillRefLevel="Basic">
+         use the command line interface
+          <!-- (see also USE1.1 “Use of the Command Line Interface”) -->
+        </Item>
+      </Description>
+    </Definition>
+    <RelevantForDomains>
+      <Domain Name="All" EstimatedBenefit="High"/>
+    </RelevantForDomains>
+    <RelevantForRoles>
+      <Role Name="Tester" EstimatedBenefit="High"/>
+      <Role Name="Builder" EstimatedBenefit="High"/>
+      <Role Name="Developer" EstimatedBenefit="High"/>
+    </RelevantForRoles>
+    <MainParentSkillRef Name="Running of Parallel Programs" Level="Intermediate"/>
+    <SubSkillRefs TestOperation="And">
+      <SkillRef Name="Use of a Workload Manager" Level="Basic"/>
+      <SkillRef Name="Use of the Command Line Interface" Level="Basic"/>
+      <SkillRef Name="Using Shell Scripts" Level="Basic"/>
+    </SubSkillRefs>
+  </Skill>
+  <Skill Name="Use of a Workload Manager" Id="USE2.1-B" Level="Basic" Category="Use of the HPC Environment">
+    <Authors>
+      <Author>HHCC Team</Author>
+    </Authors>
+    <Definition>
+      <Description>
+        <Item Type="Ability">
+          use a workload manager like SLURM or TORQUE to allocate HPC resources
+          (e.g. CPUs) and to submit a batch job
+        </Item>
+        <Item Type="Ability" AssociatedSkillRefName="Using Shell Scripts" AssociatedSkillRefLevel="Basic">
+         use shell scripts
+          <!-- (see also USE2.1 “Using Shell Scripts”) -->
+        </Item>
+        <Item Type="Ability" AssociatedSkillRefName="Use of the Command Line Interface" AssociatedSkillRefLevel="Basic">
+         use the command line interface
+          <!-- (see also USE1.1 “Use of the Command Line Interface”) -->
+        </Item>
+      </Description>
+    </Definition>
+    <RelevantForDomains>
+      <Domain Name="All" EstimatedBenefit="High"/>
+    </RelevantForDomains>
+    <RelevantForRoles>
+      <Role Name="Tester" EstimatedBenefit="High"/>
+      <Role Name="Builder" EstimatedBenefit="High"/>
+      <Role Name="Developer" EstimatedBenefit="High"/>
+    </RelevantForRoles>
+    <MainParentSkillRef Name="Running of Parallel Programs" Level="Basic"/>
+    <SubSkillRefs TestOperation="And">
+      <SkillRef Name="Use of the Command Line Interface" Level="Basic"/>
+      <SkillRef Name="Using Shell Scripts" Level="Basic"/>
     </SubSkillRefs>
   </Skill>
 <!-- ==================================================================================================== -->
@@ -2558,9 +2679,6 @@
           <!-- (see also K2.1 “Performance Frontiers”) -->
         </Item>
         <Item Type="Ability">
-          differentiate between strong and weak scaling
-        </Item>
-        <Item Type="Ability">
           assess the performance characteristics of
           parallel programs with regard to CPU usage,
           memory accesses (e.g. latencies for random access,
@@ -2596,6 +2714,13 @@
           assess speedups and efficiencies as the key
           measures for benchmarks of a parallel program
           <!-- (see also K2.1 “Performance Frontiers”) -->
+        </Item>
+        <Item Type="Ability">
+          differentiate between strong and weak scaling
+        </Item>
+        <Item Type="Knowledge">
+          the impact of temperature and (turbo) 
+          CPU frequencies on CPU performance
         </Item>
         <Item Type="Ability">
           benchmark the runtime behavior of parallel
@@ -3219,7 +3344,7 @@
     <MainParentSkillRef Name="Programming Concepts for HPC" Level="Expert"/>
     <SubSkillRefs TestOperation="And">
       <SkillRef Name="Parallel Programming" Level="Intermediate"/>
-      <SkillRef Name="Parallel Algorithms" Level="Intermediate"/>
+      <SkillRef Name="Parallel Algorithms" Level="Expert"/>
       <SkillRef Name="Programming Shared Memory Systems" Level="Expert"/>
       <SkillRef Name="Programming Message Passing Systems" Level="Expert"/>
       <SkillRef Name="Load Balancing" Level="Expert"/>
@@ -3284,6 +3409,28 @@
     </SubSkillRefs>
   </Skill>
 <!-- ==================================================================================================== -->
+  <Skill Name="Parallel Algorithms" Id="SE1.2.1-E" Level="Expert" Category="Software Engineering for HPC">
+    <Authors>
+      <Author>HHCC Team</Author>
+    </Authors>
+    <Definition>
+      <Description>
+        <Item Type="Ability">
+          determine the computational complexity of algorithms
+        </Item>
+      </Description>
+    </Definition>
+    <RelevantForDomains>
+      <Domain Name="All" EstimatedBenefit="High"/>
+    </RelevantForDomains>
+    <RelevantForRoles>
+      <Role Name="Developer" EstimatedBenefit="High"/>
+    </RelevantForRoles>
+    <MainParentSkillRef Name="Parallel Programming" Level="Expert"/>
+    <SubSkillRefs TestOperation="And">
+      <SkillRef Name="Parallel Algorithms" Level="Intermediate"/>
+    </SubSkillRefs>
+  </Skill>
   <Skill Name="Parallel Algorithms" Id="SE1.2.1-I" Level="Intermediate" Category="Software Engineering for HPC">
     <Authors>
       <Author>HHCC Team</Author>
@@ -3322,8 +3469,8 @@
           parallelizable while their parallelization
           will vary from easy to hard in practice
         </Item>
-        <Item Type="Ability">
-          determine the computational complexity of algorithms
+        <Item Type="Knowledge">
+          the big O notation (also called Landau notation) to describe the computational complexity of algorithms
         </Item>
       </Description>
     </Definition>
@@ -3874,7 +4021,8 @@
     <Definition>
       <Description>
         <Item Type="Ability">
-          use sophisticated debuggers such as DDT and TotalView
+          use sophisticated debuggers for parallel programs
+          such as DDT and TotalView
         </Item>
       </Description>
     </Definition>
@@ -3907,12 +4055,16 @@
           the ordering of the (stdout) output that may exist
           in parallel environments like MPI
         </Item>
+        <Item Type="Ability">
+          use the post-mortem technique to record important system states
+          in order to fix a bug when the program finally failed
+        </Item>
         <Item Type="Knowledge">
           the common concepts and workflows when using
           a debugger (commands like step into, step over, step out, breakpoints)
         </Item>
         <Item Type="Ability">
-          use sophisticated debuggers such as GDB
+          use debuggers such as GDB
         </Item>
       </Description>
     </Definition>
@@ -3939,7 +4091,7 @@
     <Definition>
       <Description>
         <Item Type="Ability">
-          recognize where programming idioms are violated and to
+          recognize where (parallel) programming idioms are violated and to
           refactor the code to comply to a specific programming idom
         </Item>
       </Description>
@@ -3966,7 +4118,7 @@
     <Definition>
       <Description>
         <Item Type="Ability">
-          apply programming idioms for a specific programming language,
+          apply (parallel) programming idioms for a specific programming language,
           e.g. FORTRAN, Python, C, C++
         </Item>
       </Description>
@@ -3993,13 +4145,14 @@
     <Definition>
       <ShortBackground>
         <Item IsGeneralPhrase="true">
-          This skill conveys programming idioms in general and for specific programming
-          languages in order to help developers to solve recurring programming problems.
+          This skill conveys (parallel) programming idioms in general 
+          and for specific programming languages in order 
+          to help developers to solve recurring programming problems.
         </Item>
       </ShortBackground>
       <Description>
         <Item Type="Knowledge">
-          programming idioms for a specific programming language,
+          (parallel) programming idioms for a specific programming language,
           e.g. FORTRAN, Python, C, C++
         </Item>
       </Description>
@@ -4233,7 +4386,7 @@
       <SkillRef Name="Software Configuration Management" Level="Intermediate"/>
       <SkillRef Name="Terminology (IEEE Standard)" Level="Basic"/>
       <SkillRef Name="Version Control" Level="Expert"/>
-      <SkillRef Name="Issue Tracking and Bug Tracking" Level="Intermediate"/>
+      <SkillRef Name="Issue Tracking and Bug Tracking" Level="Expert"/>
       <SkillRef Name="Release Management" Level="Expert"/>
       <SkillRef Name="Deployment Management" Level="Expert"/>
     </SubSkillRefs>
@@ -4259,7 +4412,7 @@
       <SkillRef Name="Software Configuration Management" Level="Basic"/>
       <SkillRef Name="Terminology (IEEE Standard)" Level="Basic"/>
       <SkillRef Name="Version Control" Level="Intermediate"/>
-      <SkillRef Name="Issue Tracking and Bug Tracking" Level="Intermediate"/>
+      <SkillRef Name="Issue Tracking and Bug Tracking" Level="Basic"/>
       <SkillRef Name="Release Management" Level="Intermediate"/>
       <SkillRef Name="Deployment Management" Level="Intermediate"/>
     </SubSkillRefs>
@@ -4453,7 +4606,7 @@
     </SubSkillRefs> -->
   </Skill>
 <!-- ==================================================================================================== -->
-  <Skill Name="Issue Tracking and Bug Tracking" Id="SE3.3-I" Level="Intermediate" Category="Software Engineering for HPC">
+  <Skill Name="Issue Tracking and Bug Tracking" Id="SE3.3-E" Level="Expert" Category="Software Engineering for HPC">
     <Authors>
       <Author>Kai Himstedt</Author>
       <Author>Nathanael Hübbe</Author>
@@ -4483,7 +4636,7 @@
     <RelevantForRoles>
       <Role Name="Developer" EstimatedBenefit="High"/>
     </RelevantForRoles>
-    <MainParentSkillRef Name="Software Configuration Management" Level="Intermediate"/>
+    <MainParentSkillRef Name="Software Configuration Management" Level="Expert"/>
     <SubSkillRefs TestOperation="And">
       <SkillRef Name="Issue Tracking and Bug Tracking" Level="Basic"/>
     </SubSkillRefs>
@@ -5273,7 +5426,7 @@
            use a review system like Gerrit to
            organize the code reviews
         </Item>
-        <Item Type="Ability" AssociatedSkillRefName="Issue Tracking and Bug Tracking" AssociatedSkillRefLevel="Intermediate">
+        <Item Type="Ability" AssociatedSkillRefName="Issue Tracking and Bug Tracking" AssociatedSkillRefLevel="Expert">
           document code review results and resulting tasks
           in an issue tracking system (for example Jira)
           <!-- (see also SE3.3 "Issue Tracking and Bug Tracking" -->
@@ -5289,7 +5442,7 @@
     <MainParentSkillRef Name="Software Quality" Level="Expert"/>
     <SubSkillRefs TestOperation="And">
       <SkillRef Name="Code Reviews" Level="Intermediate"/>
-      <SkillRef Name="Issue Tracking and Bug Tracking" Level="Intermediate"/>
+      <SkillRef Name="Issue Tracking and Bug Tracking" Level="Expert"/>
     </SubSkillRefs>
   </Skill>
   <Skill Name="Code Reviews" Id="SE5.4-I" Level="Intermediate" Category="Software Engineering for HPC">
@@ -5308,11 +5461,6 @@
         <Item Type="Ability">
           conduct code reviews in pairs or in a team
         </Item>
-        <Item Type="Ability" AssociatedSkillRefName="Issue Tracking and Bug Tracking" AssociatedSkillRefLevel="Intermediate">
-          document code review results and resulting tasks
-          in an issue tracking system (for example Jira)
-          <!-- (see also SE3.3 "Issue Tracking and Bug Tracking" -->
-        </Item>
       </Description>
     </Definition>
     <RelevantForDomains>
@@ -5322,12 +5470,14 @@
       <Role Name="Developer" EstimatedBenefit="High"/>
     </RelevantForRoles>
     <MainParentSkillRef Name="Software Quality" Level="Intermediate"/>
-    <SubSkillRefs TestOperation="And">
+
 <!--
+    <SubSkillRefs TestOperation="And">
+<!- -
       <SkillRef Name="Code Reviews" Level="Basic"/>
--->
-      <SkillRef Name="Issue Tracking and Bug Tracking" Level="Intermediate"/>
+- ->
     </SubSkillRefs>
+-->
   </Skill>
   
 <!-- ==================================================================================================== -->

@@ -142,6 +142,7 @@ Skill.prototype = {
 		pushIfTruthy(sections, this.listAttributeHtmlDescription("description", "Description"));
 		pushIfTruthy(sections, this.relevanceAttributeHtmlDescription("Domain", "Domains"));
 		pushIfTruthy(sections, this.relevanceAttributeHtmlDescription("Role", "Roles"));
+		pushIfTruthy(sections, this.listAttributeHtmlDescription("content", "Content"));
 
 		//Put the sections together, inserting dividers as needed
 		var result = "";

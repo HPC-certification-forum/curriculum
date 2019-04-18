@@ -14,6 +14,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import benefitDict
+import termColors
 
 import difflib
 import re
@@ -107,6 +108,7 @@ class Skill:
 		if hasattr(self, "authors"): print("\tauthors =", self.authors)
 		if hasattr(self, "description"): print("\tdescription =", self.description)
 		if hasattr(self, "background"): print("\tbackground =", self.background)
+		if hasattr(self, "content"): print("\tbackground =", self.content)
 		if hasattr(self, "domains"): print("\tdomains =", self.domains)
 		if hasattr(self, "roles"): print("\troles =", self.roles)
 		if hasattr(self, "parent"): print("\tparent =", self.parent)
@@ -136,14 +138,6 @@ class Skill:
 		return re.sub('-.*$', '', self.id)
 
 	def mergeSkills(*skills):
-		kNC = "\033[0m"
-		kBR = "\033[1;31m"
-		kBY = "\033[1;33m"
-		kBG = "\033[1;32m"
-		kBC = "\033[1;36m"
-		kBB = "\033[1;34m"
-		kBM = "\033[1;35m"
-
 		name = None
 		parent = None
 		for skill in skills:
@@ -176,11 +170,11 @@ class Skill:
 				changeA = positionA != lastPositionA
 				changeB = positionB != lastPositionB
 				if changeA or changeB:
-					result = result + kBB + "{"
-					if changeA: result = result + kBR + stringA[lastPositionA:positionA]
-					if changeA and changeB: result = result + kBB + "|"
-					if changeB: result = result + kBG + stringB[lastPositionB:positionB]
-					result = result + kBB + "}" + kNC
+					result = result + termColors.kBB + "{"
+					if changeA: result = result + termColors.kBR + stringA[lastPositionA:positionA]
+					if changeA and changeB: result = result + termColors.kBB + "|"
+					if changeB: result = result + termColors.kBG + stringB[lastPositionB:positionB]
+					result = result + termColors.kBB + "}" + termColors.kNormal
 				result = result + stringA[positionA:positionA + count]
 				lastPositionA = positionA + count
 				lastPositionB = positionB + count
@@ -196,7 +190,7 @@ class Skill:
 				matcher.set_seq2(secondString)
 				if matcher.real_quick_ratio() > kSimilarityThreshold and matcher.quick_ratio() > kSimilarityThreshold and matcher.ratio() > kSimilarityThreshold:
 					print()
-					print("\033[1mwarning: very similar strings encountered:\033[0m")
+					print(termColors.kBold + "warning: very similar strings encountered:" + termColors.kNormal)
 					print('"' + colorizedDiff(string, secondString) + '"')
 					print("Are these two strings meant to be the same? Typo? Copy-Paste error?")
 
@@ -220,6 +214,7 @@ class Skill:
 		authors = None
 		description = None
 		background = None
+		content = None
 		domains = benefitDict.BenefitDict()
 		roles = benefitDict.BenefitDict()
 		children = None
@@ -227,6 +222,7 @@ class Skill:
 			if hasattr(skill, "authors"): authors = mergeStringLists(authors, skill.authors)
 			if hasattr(skill, "description"): description = mergeStringLists(description, skill.description)
 			if hasattr(skill, "background"): background = mergeStringLists(background, skill.background)
+			if hasattr(skill, "content"): content = mergeStringLists(content, skill.content)
 			if hasattr(skill, "domains"): domains.addBenefitList(skill.domains)
 			if hasattr(skill, "roles"): roles.addBenefitList(skill.roles)
 			if hasattr(skill, "children"): children = mergeStringLists(children, [child[0] for child in skill.children])
@@ -240,12 +236,22 @@ class Skill:
 		if authors: result.authors = authors
 		if description: result.description = description
 		if background: result.background = background
+		if content: result.content = content
 		if domains: result.domains = domains.benefitDictToList()
 		if roles: result.roles = roles.benefitDictToList()
 		if parent: result.parent = (parent, "Merged")
 		if realChildren: result.children = [(child, "Merged") for child in realChildren]
 
 		return result
+
+	def addContentLink(self, displayName: str, url: str) -> None:
+		"""Add an item to the "content" attribute of the skill.
+
+		The link will be of the form '<a href="url">displayName</a>'."""
+
+		link = '<a href="' + url + '">' + displayName + '</a>'
+		if not hasattr(self, "content"): self.content = []
+		self.content.append(link)
 
 	def __hash__(self):
 		return self.key().__hash__()
