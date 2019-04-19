@@ -26,6 +26,8 @@ anzeigt oder abspeichert ... die Webseite ist unbekannt" -->
 <!-- kh 08.05.18 use pure US-ASCII encoding for best results (Umlauts etc.) -->
 <xsl:output method="xml" indent="yes" encoding="US-ASCII" omit-xml-declaration="yes"/>
 
+<xsl:variable name="RootNodeLocal" select="//Skill[(@Name = $TargetName) and (@Level = $TargetLevel)]"/>
+
 <xsl:template match="/">
 
 <!-- kh 23.01.18 place prologue here -->
@@ -228,11 +230,11 @@ i.e. another entry in the path indicates a cyclic depedency -->
     <xsl:if test="@Name != 'Root'">
 -->
 
-<!-- kh 16.04.18 check certificates here explicitly for the moment (use an attribute later) -->
+<!-- kh 24.07.18 check certificate status here -->
     <xsl:if test="     (@Name != 'Root')
                    and (@Name != 'Skill Tree')
-                   and (@Name != 'Test Certificate')">
-
+                   and (    (@IsCertificate = false())
+                         or (not(exists(@IsCertificate))))">
       <xsl:variable name="RichContentElementLeadoutString" select="'&lt;/richcontent&gt;'"/>
 
       <xsl:variable name="RichContentElementLeadinString">
@@ -496,10 +498,11 @@ i.e. another entry in the path indicates a cyclic depedency -->
   <xsl:if test="../@Name != 'Root'">
 -->
 
-<!-- kh 16.04.18 check certificates here explicitly for the moment (use an attribute later) -->
+<!-- kh 24.07.18 check certificate status here -->
   <xsl:if test="     (../@Name != 'Root')
                  and (../@Name != 'Skill Tree')
-                 and (../@Name != 'Test Certificate')">
+                 and (    (../@IsCertificate = false())
+                       or (not(exists(../@IsCertificate))))">
 
     <xsl:apply-templates select="ShortBackground"/>
     <xsl:apply-templates select="Description"/>
@@ -539,7 +542,21 @@ i.e. another entry in the path indicates a cyclic depedency -->
 
       <xsl:variable name="ItemPreBaseString">
         <xsl:choose>
-          <xsl:when test="@IsGeneralPhrase = true()">
+<!--
+          <xsl:when test="(@IsGeneralPhrase = true()) and not ($TargetLevel = 'Basic')">
+-->
+<!--- kh 07.06.18 check there are at least 2 relevant skills with the same name at different levels to use '(according to the respective level)' -->
+          <xsl:when test="     (@IsGeneralPhrase = true()) 
+                           and (    (     ($TargetLevel = 'Expert')
+                                      and (   count(//Skill[(@Name = current()/../../../@Name) and (@Level = 'Expert')])
+                                            + count(//Skill[(@Name = current()/../../../@Name) and (@Level = 'Intermediate')])
+                                            + count(//Skill[(@Name = current()/../../../@Name) and (@Level = 'Basic')]) > 1)
+                                    )
+                                 or (     ($TargetLevel = 'Intermediate')
+                                      and (   count(//Skill[(@Name = current()/../../../@Name) and (@Level = 'Intermediate')])
+                                            + count(//Skill[(@Name = current()/../../../@Name) and (@Level = 'Basic')]) > 1)
+                                    )
+                               )">
             <xsl:value-of select="concat(replace($ItemEscapedString, '^\s+|\s+$', ''), ' (according to the respective level)')"/>
           </xsl:when>
           <xsl:otherwise>
@@ -611,8 +628,13 @@ i.e. another entry in the path indicates a cyclic depedency -->
 
   <xsl:variable name="SkillDeref" select="//Skill[@Name = $SkillRef/@Name][@Level = $SkillRef/@Level]"/>
 
+<!-- kh 27.07.18 avoid minor optimization by the expression "... or (     ($ParentSkill/@Name  = $TargetName)
+                                                                   and ($ParentSkill/@Level = $TargetLevel) ..." 
+                 that may lead to double expandend subskills otherwise, if a subskill is referenced by the target and the real main parent 
+                 of the subskill is also contained in the tree with the local root node -->
 <!-- kh 17.04.18 check if the parent skill is the real main parent or a logical main parent (e.g. 'Root' or
      $TargetName) -->
+<!--
   <xsl:variable name="IsMainParentSimpleCheck" select="    (     ($ParentSkill/@Name  = $SkillDeref/MainParentSkillRef/@Name)
                                                              and ($ParentSkill/@Level = $SkillDeref/MainParentSkillRef/@Level))
                                                         or ($ParentSkill/@Name = 'Root')
@@ -620,7 +642,11 @@ i.e. another entry in the path indicates a cyclic depedency -->
 
                                                         or (     ($ParentSkill/@Name  = $TargetName)
                                                              and ($ParentSkill/@Level = $TargetLevel))"/>
-
+-->
+  <xsl:variable name="IsMainParentSimpleCheck" select="    (     ($ParentSkill/@Name  = $SkillDeref/MainParentSkillRef/@Name)
+                                                             and ($ParentSkill/@Level = $SkillDeref/MainParentSkillRef/@Level))
+                                                        or ($ParentSkill/@Name = 'Root')
+            	  						                            or ($SkillDeref/MainParentSkillRef/@Name = 'Ignore')"/>
   <xsl:variable name="IsMainParent">
     <xsl:choose>
 
@@ -635,14 +661,22 @@ i.e. another entry in the path indicates a cyclic depedency -->
 
       <xsl:otherwise>
 
+<!-- kh 27.07.18 initialized once above -->
 <!-- kh 17.04.18 it is implied here that the $ParentSkill is not handled as a main parent -->
+<!--
         <xsl:variable name="RootNodeLocal" select="//Skill[(@Name = $TargetName) and (@Level = $TargetLevel)]"/>
-
-<!-- kh 17.04.18 check if $RootNodeLocal will ne handled as the main parent during expansion -->
+-->
+<!-- kh 27.07.18 minor optimization may lead to double expandend subskills, if a subskill is referenced by the target and the real main parent 
+                 of the subskill is also contained in the tree with the local root node -->
+<!-- kh 17.04.18 check if $RootNodeLocal will be handled as the main parent during expansion -->
         <xsl:variable name="IsReferencedByTarget" select="count($RootNodeLocal//SkillRef[     (@Name  = $SkillDeref/@Name)
                                                                                           and (@Level = $SkillDeref/@Level)]) > 0"/>
         <xsl:choose>
+<!-- kh 27.07.18 avoid minor optimization to avoid double expanded subskills -->
+<!--
           <xsl:when test="$IsReferencedByTarget = true()">
+-->
+          <xsl:when test="false()">
             <xsl:copy-of select="false()"/>
           </xsl:when>
           <xsl:otherwise>
@@ -672,7 +706,6 @@ i.e. another entry in the path indicates a cyclic depedency -->
                     <xsl:with-param name="SkillToSearch" select="$SkillDeref"/>
                   </xsl:call-template>
                 </xsl:variable>
-
                 <xsl:variable name="PathString1">
                   <xsl:for-each select="$SkillPath">
                       <xsl:value-of select="concat(@Name, ' ', @Level)"/>
@@ -889,10 +922,11 @@ i.e. another entry in the path indicates a cyclic depedency -->
       <advancedProp name="sInitialMode" value=""/>
       <validatorSchema value="freeplane_1.3.x.xsd"/>
     </scenario>
-    <scenario default="no" name="NonPSpeechSkillTreeExpert" userelativepaths="yes" externalpreview="no" url="skills-non-personal-speech-auto-generated.xml" htmlbaseurl="" outputurl="skills-non-personal-speech-auto-generated.mm" processortype="saxon8"
+    <scenario default="yes" name="NonPSpeechSkillTreeExpert" userelativepaths="yes" externalpreview="no" url="skills-non-personal-speech-auto-generated.xml" htmlbaseurl="" outputurl="skills-non-personal-speech-auto-generated.mm" processortype="saxon8"
               useresolver="yes" profilemode="0" profiledepth="" profilelength="" urlprofilexml="" commandline="" additionalpath="" additionalclasspath="" postprocessortype="none" postprocesscommandline="" postprocessadditionalpath=""
               postprocessgeneratedext="" validateoutput="yes" validator="custom" customvalidator="Saxonica Validator XSD 1.1">
       <parameterValue name="TargetName" value="'Skill Tree'"/>
+      <parameterValue name="TargetLevel" value="'Intermediate'"/>
       <advancedProp name="bSchemaAware" value="true"/>
       <advancedProp name="xsltVersion" value="2.0"/>
       <advancedProp name="schemaCache" value="||"/>
@@ -910,9 +944,57 @@ i.e. another entry in the path indicates a cyclic depedency -->
       <advancedProp name="sInitialMode" value=""/>
       <validatorSchema value="freeplane_1.3.x.xsd"/>
     </scenario>
-    <scenario default="yes" name="NonPSpeechWithContentTest" userelativepaths="yes" externalpreview="no" url="skills-and-content-non-personal-speech-auto-generated.xml" htmlbaseurl="" outputurl="skills-and-content-non-personal-speech-auto-generated.mm"
+    <scenario default="no" name="NonPSpeechWithContentTest" userelativepaths="yes" externalpreview="no" url="skills-and-content-non-personal-speech-auto-generated.xml" htmlbaseurl="" outputurl="skills-and-content-non-personal-speech-auto-generated.mm"
               processortype="saxon8" useresolver="yes" profilemode="0" profiledepth="" profilelength="" urlprofilexml="" commandline="" additionalpath="" additionalclasspath="" postprocessortype="none" postprocesscommandline="" postprocessadditionalpath=""
               postprocessgeneratedext="" validateoutput="yes" validator="custom" customvalidator="Saxonica Validator XSD 1.1">
+      <parameterValue name="TargetName" value="'Test Certificate'"/>
+      <parameterValue name="TargetLevel" value="'Basic'"/>
+      <advancedProp name="bSchemaAware" value="true"/>
+      <advancedProp name="xsltVersion" value="2.0"/>
+      <advancedProp name="schemaCache" value="||"/>
+      <advancedProp name="iWhitespace" value="0"/>
+      <advancedProp name="bWarnings" value="true"/>
+      <advancedProp name="bXml11" value="false"/>
+      <advancedProp name="bUseDTD" value="false"/>
+      <advancedProp name="bXsltOneIsOkay" value="true"/>
+      <advancedProp name="bTinyTree" value="true"/>
+      <advancedProp name="bGenerateByteCode" value="true"/>
+      <advancedProp name="bExtensions" value="true"/>
+      <advancedProp name="iValidation" value="0"/>
+      <advancedProp name="iErrorHandling" value="fatal"/>
+      <advancedProp name="sInitialTemplate" value=""/>
+      <advancedProp name="sInitialMode" value=""/>
+      <validatorSchema value="freeplane_1.3.x.xsd"/>
+    </scenario>
+    <scenario default="no" name="Test" userelativepaths="yes" externalpreview="no" url="skills-and-content-non-personal-speech-auto-generated.xml" htmlbaseurl="" outputurl="skills-non-personal-speech-auto-generated.mm" processortype="saxon8"
+              useresolver="yes" profilemode="0" profiledepth="" profilelength="" urlprofilexml="" commandline="" additionalpath="" additionalclasspath="" postprocessortype="none" postprocesscommandline="" postprocessadditionalpath=""
+              postprocessgeneratedext="" validateoutput="yes" validator="custom" customvalidator="Saxonica Validator XSD 1.1">
+      <parameterValue name="CreateLinksToContent" value="'true'"/>
+      <parameterValue name="ShowDefinitionUnfolded" value="'true'"/>
+      <parameterValue name="TargetName" value="'Getting Started with HPC Clusters Test01'"/>
+      <parameterValue name="TargetLevel" value="'Basic'"/>
+      <advancedProp name="bSchemaAware" value="true"/>
+      <advancedProp name="xsltVersion" value="2.0"/>
+      <advancedProp name="schemaCache" value="||"/>
+      <advancedProp name="iWhitespace" value="0"/>
+      <advancedProp name="bWarnings" value="true"/>
+      <advancedProp name="bXml11" value="false"/>
+      <advancedProp name="bUseDTD" value="false"/>
+      <advancedProp name="bXsltOneIsOkay" value="true"/>
+      <advancedProp name="bTinyTree" value="true"/>
+      <advancedProp name="bGenerateByteCode" value="true"/>
+      <advancedProp name="bExtensions" value="true"/>
+      <advancedProp name="iValidation" value="0"/>
+      <advancedProp name="iErrorHandling" value="fatal"/>
+      <advancedProp name="sInitialTemplate" value=""/>
+      <advancedProp name="sInitialMode" value=""/>
+      <validatorSchema value="freeplane_1.3.x.xsd"/>
+    </scenario>
+    <scenario default="no" name="TestTest" userelativepaths="yes" externalpreview="no" url="skills-and-content-non-personal-speech-auto-generated.xml" htmlbaseurl="" outputurl="skills-non-personal-speech-auto-generated.mm" processortype="saxon8"
+              useresolver="yes" profilemode="0" profiledepth="" profilelength="" urlprofilexml="" commandline="" additionalpath="" additionalclasspath="" postprocessortype="none" postprocesscommandline="" postprocessadditionalpath=""
+              postprocessgeneratedext="" validateoutput="yes" validator="custom" customvalidator="Saxonica Validator XSD 1.1">
+      <parameterValue name="CreateLinksToContent" value="'true'"/>
+      <parameterValue name="ShowDefinitionUnfolded" value="'true'"/>
       <parameterValue name="TargetName" value="'Test Certificate'"/>
       <parameterValue name="TargetLevel" value="'Basic'"/>
       <advancedProp name="bSchemaAware" value="true"/>

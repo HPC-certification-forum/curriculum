@@ -22,11 +22,13 @@ import argparse
 optionsParser = argparse.ArgumentParser()
 optionsParser.add_argument('-o', '--output', required=True)
 optionsParser.add_argument('-s', '--skill-tree', required=True)
+optionsParser.add_argument('-c', '--content-elements', required=False)
 options = optionsParser.parse_args()
-print(options)
 
 skills = skillList.SkillList.readSkillList(options.skill_tree)
 skills.checkDag()
+if options.content_elements:
+	skills.addContents(options.content_elements)
 jsonFileGenerator.generateFiles(skills, options.output + '/leveledSkills')
 reducedList = skills.mergeLevels()
 jsonFileGenerator.generateFiles(reducedList, options.output + '/mergedSkills')

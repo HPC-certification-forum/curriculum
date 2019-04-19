@@ -4,6 +4,8 @@ allTargets += $(curDir)/skills-fully-expanded-auto-generated.xml
 allTargets += $(curDir)/skills-fully-expanded-non-personal-speech-auto-generated.xml
 allTargets += $(curDir)/skills-fully-expanded-personal-speech-auto-generated.xml
 
+allTargets += $(curDir)/getting-started-with-hpc-clusters-basic-skills-non-personal-speech-auto-generated.mm
+allTargets += $(curDir)/getting-started-with-hpc-clusters-basic-skills-personal-speech-auto-generated.mm
 allTargets += $(curDir)/root-expert-skills-non-personal-speech-auto-generated.mm
 allTargets += $(curDir)/root-expert-skills-personal-speech-auto-generated.mm
 allTargets += $(curDir)/skill-tree-basic-skills-non-personal-speech-auto-generated.mm
@@ -12,8 +14,6 @@ allTargets += $(curDir)/skill-tree-expert-skills-non-personal-speech-auto-genera
 allTargets += $(curDir)/skill-tree-expert-skills-personal-speech-auto-generated.mm
 allTargets += $(curDir)/skill-tree-intermediate-skills-non-personal-speech-auto-generated.mm
 allTargets += $(curDir)/skill-tree-intermediate-skills-personal-speech-auto-generated.mm
-allTargets += $(curDir)/test-certificate-basic-skills-non-personal-speech-auto-generated.mm
-allTargets += $(curDir)/test-certificate-basic-skills-personal-speech-auto-generated.mm
 
 allTargets += $(curDir)/skills-non-personal-speech-auto-generated.xml
 allTargets += $(curDir)/skills-personal-speech-auto-generated.xml
@@ -52,6 +52,9 @@ $(ST_directory)/skills-fully-expanded-auto-generated.xml: $(ST_directory)/Skills
 
 
 # kh 17.05.18 create Mindmaps in the Freeplane-XML-format (without references to content files)
+$(ST_directory)/getting-started-with-hpc-clusters-basic-%.mm: $(ST_directory)/%.xml
+	$(SAXON) -o:"$@" "$<" "$(ST_directory)/SkillTree2MindMap.xsl" "TargetName=Getting Started with HPC Clusters" "TargetLevel=Basic" $(and $(findstring and-content,$@),"CreateLinksToContent=true")
+
 $(ST_directory)/root-expert-%.mm: $(ST_directory)/%.xml
 	$(SAXON) -o:"$@" "$<" "$(ST_directory)/SkillTree2MindMap.xsl" "TargetName=Root" "TargetLevel=Expert" $(and $(findstring and-content,$@),"CreateLinksToContent=true")
 
@@ -63,6 +66,3 @@ $(ST_directory)/skill-tree-expert-%.mm: $(ST_directory)/%.xml
 
 $(ST_directory)/skill-tree-intermediate-%.mm: $(ST_directory)/%.xml
 	$(SAXON) -o:"$@" "$<" "$(ST_directory)/SkillTree2MindMap.xsl" "TargetName=Skill Tree" "TargetLevel=Intermediate" $(and $(findstring and-content,$@),"CreateLinksToContent=true")
-
-$(ST_directory)/test-certificate-basic-%.mm: $(ST_directory)/%.xml
-	$(SAXON) -o:"$@" "$<" "$(ST_directory)/SkillTree2MindMap.xsl" "TargetName=Test Certificate" "TargetLevel=Basic" $(and $(findstring and-content,$@),"CreateLinksToContent=true")

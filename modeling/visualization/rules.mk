@@ -14,6 +14,7 @@ V_dataRenameInstructions := build/data/mergedSkills/domainDefinitions.json|domai
                             build/data/mergedSkills/roleDefinitions.json|role-definitions.json \
                             build/data/mergedSkills/skillAuthors.json|skill-authors.json \
                             build/data/mergedSkills/skillBackgrounds.json|skill-backgrounds.json \
+                            build/data/mergedSkills/skillContents.json|skill-contents.json \
                             build/data/mergedSkills/skillData.json|skill-data.json \
                             build/data/mergedSkills/skillDescriptions.json|skill-descriptions.json \
                             build/data/mergedSkills/skillTreeStructure.json|skill-tree-structure.json
@@ -52,15 +53,16 @@ V_scriptRenames = $(subst |,|$(shell head -n1 '$(V_baseUrlConfigFile)'), $(V_scr
 V_dataRenames := $(notdir $(V_dataRenameInstructions))
 V_renameSubstitutions = $(addprefix s|, $(addsuffix |;, $(V_scriptRenames) $(V_dataRenames)))
 
-#Rule to ask user for a deployment URL, and to cache that decision.
-$(V_baseUrlConfigFile):
-	@echo "https://my.cool.domain.org/some/dir/path/" > $(V_baseUrlConfigFile)
-	@echo "" >> $(V_baseUrlConfigFile)
-	@echo "# The first line of this file will be used as a prefix for all URLs to fetch data/scripts for the Skill-Tree visualization applet." >> $(V_baseUrlConfigFile)
-	@echo "# You should change the dummy value above to the web location that you intend deploying the Skill-Tree viewer to." >> $(V_baseUrlConfigFile)
-	@echo "# This is only relevant if you actually want to deploy the Skill-Tree visualizer yourself." >> $(V_baseUrlConfigFile)
-	@echo "warning: no '$(V_baseUrlConfigFile)' file found, creating a dummy one" 1>&2
-	@echo "note: if you actually want to deploy the Skill-Tree viewer, you should edit '$(V_baseUrlConfigFile)' to match your intended web location" 1>&2
+trash := $(or $(wildcard $(V_baseUrlConfigFile)), \
+              $(shell echo "No base URL for deployment has been configured yet." 1>&2) \
+              $(shell echo "Please enter either an URL prefix under which the visualizer will be deployed," 1>&2) \
+              $(shell echo "or leave empty for off-line testing." 1>&2) \
+              $(shell echo "You can later change your choice by editing the file '$(V_baseUrlConfigFile)' and re-running "'`make`' 1>&2) \
+              $(eval userChoice := $(shell bash -c "read -e -i 'https://my.cool.domain.org/some/dir/path/' -p 'URL prefix: ' prefix ; echo "'"$$prefix"')) \
+              $(shell echo "$(userChoice)" > $(V_baseUrlConfigFile)) \
+              $(shell echo "" >> $(V_baseUrlConfigFile)) \
+              $(shell echo "\# The first line of this file will be used as a prefix for all URLs to fetch data/scripts for the Skill-Tree visualization applet." >> $(V_baseUrlConfigFile)) \
+              $(shell echo "\# This is only relevant if you actually want to deploy the Skill-Tree visualizer yourself." >> $(V_baseUrlConfigFile)))
 
 #Special rule for index.html, because this needs sed to adjust the paths inside.
 allTargets += $(V_finalProductsDir)/index.html
